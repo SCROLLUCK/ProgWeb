@@ -4,17 +4,17 @@
 </head>
 <body style="user-select: none;">
     <h1>Formulário de Contato</h1>
-    <fieldset>
+    <fieldset style="width: 400px;">
         <legend>Dados Básicos</legend>
         <label for="nome">Nome</label>
-        <input type="text" name="nome" id="nome"><br>
+        <input type="text" name="nome" id="nome" required placeholder="Digite seu nome"><br>
         <label for="email">E-mail</label>
-        <input type="email" name="email" id="email" placeholder="seunome@dominio.com.br"><br>
+        <input type="email" name="email" id="email" required placeholder="seunome@dominio.com.br"><br>
         <label for="website">Website</label>
         <input type="text" name="website" id="website" placeholder="http://">
         
     </fieldset>
-    <fieldset>
+    <fieldset style="width: 400px;">
         <legend>Seu curso de Instituto de Computação</legend>
         <input type="radio" name="curso" id="cc" checked>
         <label for="cc">Ciência da Computação</label><br>
@@ -23,23 +23,23 @@
         <input type="radio" name="curso" id="ec">
         <label for="ec">Engenharia da Computação</label>
     </fieldset>
-    <fieldset>
+    <fieldset style="width: 400px;">
         <legend>Assinale as linguagens já usadas por você:</legend>
         <label for="java">Java</label>
-        <input type="checkbox" name="linguagens" id="java">
+        <input type="checkbox" name="ling" id="java">
         <label for="c">C</label>
-        <input type="checkbox" name="linguagens" id="java">
-        <label for="c++">C++</label>
-        <input type="checkbox" name="linguagens" id="c">
+        <input type="checkbox" name="ling" id="c">
+        <label for="cpp">C++</label>
+        <input type="checkbox" name="ling" id="cpp">
         <label for="perl">Perl</label>
-        <input type="checkbox" name="linguagens" id="java">
+        <input type="checkbox" name="ling" id="perl">
         <label for="python">Python</label>
-        <input type="checkbox" name="linguagens" id="java">
-        <label for="javascrip">Javascript</label>
-        <input type="checkbox" name="linguagens" id="java">
+        <input type="checkbox" name="ling" id="python">
+        <label for="js">Javascript</label>
+        <input type="checkbox" name="ling" id="js">
 
     </fieldset>
-    <fieldset>
+    <fieldset style="width: 400px;">
         <legend>Dados Complementares</legend>
         <label for="cor">Cor favorita</label>
         <input type="color" name="cor" id="cor"><br>
@@ -50,7 +50,7 @@
         <label for="nota">Nota para este site</label>
         <input type="range" name="nota"  id="nota" value="0">
     </fieldset>
-    <fieldset>
+    <fieldset style="width: 400px;">
         <legend>Área de Atuação</legend>
         <select name="area" id="area">
             <option value="1">Banco de Dados</option>
@@ -62,11 +62,11 @@
             <option value="7">Redes de Computadores</option>
         </select>
     </fieldset>
-    <fieldset>
+    <fieldset style="width: 400px;">
         <legend>Submeta seu curriculo vitae</legend>
         <input type="file" name="curriculo" id="curriculo">
     </fieldset>
-    <fieldset>
+    <fieldset style="width: 400px;">
         <legend>Escreva sua mensagem</legend>
         <textarea name="mensagem" id="mensagem" cols="40" rows="4" placeholder="Este é o valor padrão"></textarea>
     </fieldset><br>

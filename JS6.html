@@ -1,0 +1,111 @@
+<html>
+	<head>
+	<meta charset="utf-8">
+	<title>Gráficos em barras</title>
+	<style>
+		.box {
+			margin: 7px;
+			float: left;
+		}
+		.subbox {
+			position: relative;
+			float: left;
+			clear: both;
+		}
+		.filho {
+			float: left;
+			margin: 0 6px 0px 0px;
+			width: 90px;
+		}
+		.filho2 {
+			float: left;
+			margin: 0 6px;
+		}
+		#btn {
+			position: absolute;
+			background: #ff4800;
+			border: none;
+			padding: 8px;
+			border-radius: 3px;
+			top: 156px;
+			left: 357px;
+		}
+		#btn:hover {
+			background: #e8622d ;
+		}
+		.tabela {
+			position: relative;
+			float: left;
+			clear: both;
+			transform: rotate(-180deg);
+			display: flex;
+			flex-direction: row-reverse;
+			margin: 38px 0px;
+		}
+		.coluna {
+			position: relative;
+			float: left;
+			background: #ff4800;
+			width: 50px;
+			margin: 2px;
+		}
+		.label {
+			transform: rotate(180deg);
+			font-size: 13px;
+			position: absolute;
+			text-align: center;
+			bottom: -30px;
+			width: 100%;
+		}
+	</style>
+</head>
+
+
+
+<body>
+	<h2>Um Gráfico de Barras</h2>
+	<form class="box" name="box">
+		<p> Informe a altura das barras:</p>
+		<input class="filho" type="text" name="barra">
+		<input class="filho" type="text" name="barra">
+		<input class="filho" type="text" name="barra">
+		<input class="filho" type="text" name="barra">
+		<input class="filho" type="text" name="barra">
+		<div class="subbox">
+			<p> Informe a largura das barras:</p>
+			<input class="filho-2" type="text" name="largura" style="width: 90px;">
+	    </div>
+	</form>
+	<button id="btn"> Desenhar o Gráfico</button>
+	
+    <div class="tabela">
+	     <div class="coluna"></div>
+	     <div class="coluna"></div>
+	     <div class="coluna"></div>
+	     <div class="coluna"></div>
+	     <div class="coluna"></div>
+	</div>
+ 
+<script>
+	
+	var desenha = document.getElementById('btn');
+
+	desenha.onclick = function () {
+		
+		var inputs  = document.getElementsByName("barra");
+		var colunas = document.getElementsByClassName("coluna");
+
+		for (var i = 0; i < inputs.length; i++) {
+			colunas[i].style.setProperty("width", document.box.largura.value +"px");
+			colunas[i].style.setProperty("height", inputs[i].value + "px");
+			colunas[i].innerHTML = "";
+			var label = document.createElement("p");
+			label.className = "label";
+			label.innerHTML = inputs[i].value;
+			colunas[i].appendChild(label);
+		}
+	};
+
+</script>
+
+</body></html>

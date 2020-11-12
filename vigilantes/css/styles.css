@@ -1,0 +1,63 @@
+* {
+  margin:0;
+  padding:0;
+}
+
+.reserva {
+  background-image: url('assets/reserva.png');
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.foco-incendio {
+  background-image: url('assets/foco.gif');
+  background-size: 100%;
+  background-position-y: 90%;
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: 2;
+}
+.status {
+  position: absolute;
+  z-index: 4;
+  height: 120px;
+  width: 1243px;
+}
+.lifes {
+  display: flex;
+  padding: 12px;
+  position: absolute;
+}
+.life {
+  height: 55px;
+  width: 100px;
+  background-image: url('assets/arvore.png');
+  background-size: 100%;
+}
+
+.gameOver {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgb(255 0 0 / 61%);
+}
+
+h3 { font-size: 50px; color: white; }
+h1 { font-size: 98px; color: white; }
+.results {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 2;
+}
+.score {
+  position: absolute;
+  right: 0%;
+  font-size: 42px;
+  font-family: monospace;
+  padding: 12px;
+  font-weight: 700;
+}

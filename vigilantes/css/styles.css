@@ -1,9 +1,10 @@
 * {
   margin:0;
   padding:0;
+  user-select: none;
 }
 
-.reserva {
+#reserva {
   background-image: url('assets/reserva.png');
   position: absolute;
   left: 0;
@@ -19,11 +20,20 @@
   position: absolute;
   z-index: 2;
 }
+.caveira {
+  background-image: url('assets/caveira.gif');
+  background-size: 100%;
+  background-position-y: 90%;
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: 2;
+}
 .status {
   position: absolute;
   z-index: 4;
-  height: 120px;
+  height: 80px;
   width: 1243px;
+  background: linear-gradient(180deg, #314631a6 49%, transparent 100%);
 }
 .lifes {
   display: flex;
@@ -39,19 +49,23 @@
 
 .gameOver {
   position: absolute;
+  font-family: monospace;
   width: 100%;
   height: 100%;
-  background: rgb(255 0 0 / 61%);
+  background: rgb(244 67 54 / 69%);
 }
 
-h3 { font-size: 50px; color: white; }
-h1 { font-size: 98px; color: white; }
+h3 { font-size: 50px; color: white; padding-left: 10px;font-family: monospace; text-shadow: 0 0 5px black; }
+h1 { font-size: 98px; color: white; font-family: monospace; text-shadow: 0 0 5px black; }
+h4 { font-size: 20px; color: white; padding-left: 10px;font-family: monospace; text-shadow: 0 0 5px black; }
 .results {
   position: absolute;
   top: 50%;
   left: 50%;
+  padding: 12px;
   transform: translate(-50%,-50%);
   z-index: 2;
+  background: rgb(51 76 74 / 43%);
 }
 .score {
   position: absolute;
@@ -60,4 +74,16 @@ h1 { font-size: 98px; color: white; }
   font-family: monospace;
   padding: 12px;
   font-weight: 700;
+  color: #4CAF50;
+  text-shadow: 0 0 5px black;
+}
+
+.h1Verde { color: #4CAF50;}
+
+#paused {
+  position: absolute;
+  font-family: monospace;
+  display: none;
+  width: 100%;
+  height: 100%;
 }

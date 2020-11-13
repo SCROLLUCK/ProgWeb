@@ -1,60 +1,119 @@
 (function () {
+    const FPS = 1;
+    let FREQ = 1000;
+    let gameDimensions = [1243, 960];
+    let focoDimensions = [100, 130, 142, 142];
+    let probFoco = 25;
+    let probCaveira = 5;
+    let reserva;
+    let focos = [];
+    let status;
+    let score;
+    let lifes;
+    let gameLoop;
+    let gameOver;
+    let id = 0;
+    let game;
+    let started;
+    let paused;
+    let pause;
+    let frames = 0;
 
-  const FPS = 1; 
-  let gameDimensions = [1243, 960];
-  let focoDimensions = [100, 130];
-  let probFoco = 25;
-  let reserva;
-  let focos = [];
-  let status;
-  let score;
-  let lifes;
-  let gameLoop;
-  let gameOver;
-  let luck=0;
+  class Game{
+    constructor(){
+      document.body.innerHTML = "";
+      reserva = new Reserva();
+      focos = [];
+      started = true;
+      gameOver = false;
+      paused = false;
+      id = 0;
+      this.start = function (){
+        status = new Status();
+        pause = new Pause();
+        score = new Score();
+        lifes = new Lifes(5);
+        clearInterval(gameLoop);
+        gameLoop = setInterval(run, FREQ/FPS);
+      }
+      this.difficult = function(){
+        if(FREQ > 0) FREQ = FREQ-100;
+        clearInterval(gameLoop);
+        gameLoop = setInterval(run, FREQ/FPS);
+      }
+      this.gameover = () => { new GameOver(); }
+      this.pause = () => { pause.pause(); }
+      this.menu = () => { new Menu(); }
+    }
+  }
 
-  function init() {
+  class Menu {
+    constructor () {
+      this.element = document.createElement("div");
+      this.element.id = "menu";
+      this.element.innerHTML =  '<div class="results">'+ 
+                                  '<h1 class="h1Verde">VIGILANTES DA FLORESTA</h1>'+
+                                  '<h4>Pressione "S" para jogar</h4>'+
+                                '</div>'
+      reserva.element.appendChild(this.element);
+    }
+  }
 
-    gameOver = false;
-    status = document.createElement("div");
-    status.className = "status";
-    lifes = new Lifes()
-    score = new Score()
+  class Pause {
+    constructor () {
+      this.element = document.createElement("div");
+      this.element.id = "paused";
+      this.element.innerHTML = '<div class="results">'+ 
+                                  '<h1 class="h1Verde">PAUSADO</h1>'+
+                                  '<h4>Pressione "P" para continuar...</h4>'+
+                                '</div>'
+      reserva.element.appendChild(this.element);
+      this.pause = function (){
+        if(!gameOver && started){
+          if(paused){ 
+            paused = false;
+            gameLoop = setInterval(run, FREQ/FPS);
+            this.element.style.display = "none";
+          }else{ 
+            paused = true; 
+            clearInterval(gameLoop); 
+            this.element.style.display = "block";
+          }
+        }
+      }
+    }
+  }
 
-    for(var life=0; life < 5; life++) new Life();
-    
-    status.appendChild(lifes.element);
-    status.appendChild(score.element);
-    document.body.appendChild(status);
-
-    reserva = new Reserva();
-  
-    gameLoop = setInterval(run, 1000/FPS);
+  class Status {
+    constructor () {
+      this.element = document.createElement("div");
+      this.element.className = "status";  
+      document.body.appendChild(this.element);
+    }
   }
 
   window.addEventListener("keydown", function (e) {
-    if (e.key === 'o') {
-      clearInterval(gameLoop);
+    if (e.key === 'p') {
+       game.pause();
     }
-    if(e.key === 'r'){
-      clearInterval(gameLoop);
-      init();
+    if(e.key === 's'){
+      game = new Game();
+      game.start();
     }
   })
 
   function validate_position () {
 
-   
     var valid = false;
-    var lY = [0,400, 616,967]
-    var lX = [600,1500, 28,296]
+    var lY = [450,800, 0,200]
+    var lX = [0,280, 620,1070]
     
     while(!valid){
 
       var x = Math.floor((Math.random() * (gameDimensions[0]-focoDimensions[0])))
       var y =  Math.floor((Math.random() * (gameDimensions[1]-focoDimensions[1])))
 
-      if(((x > lX[0] && x < lX[1]) || (y > lY[0] && y < lY[1])) && ((x > lX[2] && x < lX[2]) || (y > lY[2] && y < lY[3]))){
+      if(((x >= lX[0] && x <= lX[1]) && (y >= lY[0] && y <= lY[1])) || ((x >= lX[2] && x <= lX[3]) && (y >= lY[2] && y <= lY[3]))){
         valid = false;
       }else {
         valid = true;
@@ -70,8 +129,11 @@
       this.element.innerHTML =  '<div class="results">'+ 
                                   '<h1>GAME OVER</h1>'+
                                   '<h3>score: '+score.score+'</h3>'+
+                                  '<h4>Pressione "S" para tentar novamente </h4>'+
                                 '</div>'
+      status.element.style.display = "none";
       reserva.element.appendChild(this.element);
+      gameOver = true;
     }
   }
 
@@ -80,42 +142,38 @@
       this.element = document.createElement("div");
       this.element.className = "score";
       this.score = 0;
-      this.element.innerHTML = "Score: 00"
-      this.update_score = function (){
-        this.score = this.score+10;
-        this.element.innerHTML = "Score:"+this.score;
+      this.element.innerHTML = "Score:00"
+      this.update_score = function (type){
+        if(!gameOver){
+          type == "skull"? this.score = this.score+20 : this.score = this.score+10;
+          this.element.innerHTML = "Score:"+this.score;
+        }
       }
-      status.appendChild(this.element);
+      status.element.appendChild(this.element);
     }
   }
 
   class Lifes {
-    constructor () {
+    constructor (max_lifes) {
       this.element = document.createElement("div");
       this.element.className = "lifes";
-      this.count = 5;
-      status.appendChild(this.element);
-    }
-  }
-
-  class Life {
-    constructor () {
-      this.element = document.createElement("div");
-      this.element.className = "life";
-      lifes.element.appendChild(this.element);
+      this.count = max_lifes;
+      for(var life=0; life < this.count; life++){
+        var new_life = document.createElement("div");
+        new_life.className = "life";
+        this.element.appendChild(new_life);
+      }
+        
+      status.element.appendChild(this.element);
     }
   }
 
   class Reserva {
     constructor () {
       this.element = document.createElement("div");
-      this.element.className = "reserva";
       this.element.id = "reserva";
       this.element.style.width = `${gameDimensions[0]}px`;
       this.element.style.height = `${gameDimensions[1]}px`;
-      this.element.onclick = function (e){
-        console.log(e)
-      }
       document.body.appendChild(this.element);
     }
   }
@@ -129,20 +187,51 @@
       var XY = validate_position()
       this.element.style.left = `${XY[0]}px`;
       this.element.style.top = `${XY[1]}px`;
-      this.element.setAttribute("data-index",luck)
-      luck++;
+      this.element.setAttribute("data-index",id);id++;
+      this.type = false; // foco
       this.element.setAttribute("data-state","burn")
+      this.element.setAttribute("data-type","focus")
       this.element.onclick = function (){
-        update_foco();
-        if(this.getAttribute("data-state") == "burn"){
-          this.style.display = "none";
-          focos.splice(this.getAttribute("data-index"),1);
-          score.update_score();
+        if(!gameOver){
+          update_foco();
+          if(this.getAttribute("data-state") == "burn"){
+            this.style.display = "none";
+            focos.splice(this.getAttribute("data-index"),1);
+            score.update_score(this.getAttribute("data-type"));
+          }
         }
       }
       this.keep_alive = new Date();
       this.keep_alive.setSeconds(this.keep_alive.getSeconds() + 2);
-      console.log(focos.length+":"+this.keep_alive);
+      reserva.element.appendChild(this.element);
+    }
+  }
+
+  class Caveira {
+    constructor () {
+      this.element = document.createElement("div");
+      this.element.className = "caveira";
+      this.element.style.width = `${focoDimensions[2]}px`;
+      this.element.style.height = `${focoDimensions[3]}px`;
+      var XY = validate_position()
+      this.element.style.left = `${XY[0]}px`;
+      this.element.style.top = `${XY[1]}px`;
+      this.element.setAttribute("data-index",id);id++;
+      this.type = true; //caveira
+      this.element.setAttribute("data-state","burn")
+      this.element.setAttribute("data-type","skull")
+      this.element.onclick = function (){
+        if(!gameOver){
+          update_foco();
+          if(this.getAttribute("data-state") == "burn"){
+            this.style.display = "none";
+            focos.splice(this.getAttribute("data-index"),1);
+            score.update_score(this.getAttribute("data-type"));
+          }
+        }
+      }
+      this.keep_alive = new Date();
+      this.keep_alive.setSeconds(this.keep_alive.getSeconds() + 2);
       reserva.element.appendChild(this.element);
     }
   }
@@ -152,22 +241,23 @@
     for(var foc=0; foc < focos.length; foc++){
       var current_time = new Date();
       var foco = focos[foc];
-
-      if(foco.element.getAttribute("data-state") == "burn"){
+      var state = foco.element.getAttribute("data-state");
+      if(state == "burn"){
         foco.element.setAttribute("data-index",foc)
         if (current_time > foco.keep_alive){
-
-          console.log("remove:"+foc+":"+foco.keep_alive);
-          foco.element.style.backgroundImage = "url('css/assets/devastacao.png')";
           foco.element.setAttribute("data-state","burned")
-          lifes.count--;
-          if(lifes.count == 0){ 
-            gameOver = true;
-            new GameOver();
+          foco.element.style.backgroundImage = "url('css/assets/devastacao.png')";
+          !foco.type? lifes.count-- : lifes.count = lifes.count-2;
+          if(lifes.count <= 0){ 
+            lifes.element.innerHTML = "";
+            game.gameover();
+            break;
+          }else{
+            foco.type? lifes.element.removeChild(lifes.element.lastChild): "";
+            lifes.element.removeChild(lifes.element.lastChild);
           }
           focos.splice(foc, 1);
-          if(lifes.element.children.length > 0) lifes.element.removeChild(lifes.element.lastChild);
-
+          
         }
       }
     } 
@@ -175,13 +265,21 @@
 
   function run () {
     if(!gameOver){
+
+      frames++;
+      if(frames%60 == 0) game.difficult();
       if (Math.random() * 100 < probFoco) {
         let foco = new FocoIncendio();
         focos.push(foco);
+      }
+      if (Math.random() * 100 < probCaveira) {
+        let caveira = new Caveira();
+        focos.push(caveira);
       }
       update_foco();
     } 
   }
 
-  init();
+  game = new Game();
+  game.menu();
 })();

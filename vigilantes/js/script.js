@@ -1,10 +1,11 @@
 (function () {
     const FPS = 1;
     let FREQ = 1000;
-    let gameDimensions = [1243, 960];
-    let focoDimensions = [100, 130, 142, 142];
     let probFoco = 25;
     let probCaveira = 5;
+    let gameDimensionX = 1243;
+    let gameDimensionY = 960;
+    let focoDimensions = [100, 130, 142, 142];
     let reserva;
     let focos = [];
     let status;
@@ -18,6 +19,7 @@
     let paused;
     let pause;
     let frames = 0;
+    let factor = 20;
 
   class Game{
     constructor(){
@@ -28,6 +30,8 @@
       gameOver = false;
       paused = false;
       id = 0;
+      FREQ = 1000;
+      factor = 20
       this.start = function (){
         status = new Status();
         pause = new Pause();
@@ -37,7 +41,10 @@
         gameLoop = setInterval(run, FREQ/FPS);
       }
       this.difficult = function(){
-        if(FREQ > 0) FREQ = FREQ-100;
+        if(FREQ > 0){
+          factor += factor * 0.03;
+          FREQ = FREQ - factor;
+        } 
         clearInterval(gameLoop);
         gameLoop = setInterval(run, FREQ/FPS);
       }
@@ -102,7 +109,18 @@
     }
   })
   window.addEventListener("resize", function(e){
-      window.resizeTo(1243, 963);
+      window.resizeTo(1243, 980);
+      if(window.innerWidth > 1250){
+        gameDimensionX = 1243;
+        gameDimensionY = 960;
+        reserva.element.style.width = "1243px";
+        reserva.element.style.height = "960px";
+      }else{
+        gameDimensionX = window.innerWidth;
+        gameDimensionY = window.innerHeight;
+        reserva.element.style.width = "100%";
+        reserva.element.style.height = "100%";
+      }
   });
 
   function validate_position () {
@@ -110,11 +128,11 @@
     var valid = false;
     var lY = [450,800, 0,200]
     var lX = [0,280, 620,1070]
-    
+    var x,y;
     while(!valid){
-
-      var x = Math.floor((Math.random() * (gameDimensions[0]-focoDimensions[0])))
-      var y =  Math.floor((Math.random() * (gameDimensions[1]-focoDimensions[1])))
+      
+      x = Math.floor((Math.random() * (gameDimensionX-focoDimensions[2])))
+      y = Math.floor((Math.random() * (gameDimensionY-focoDimensions[3])))
 
       if(((x >= lX[0] && x <= lX[1]) && (y >= lY[0] && y <= lY[1])) || ((x >= lX[2] && x <= lX[3]) && (y >= lY[2] && y <= lY[3]))){
         valid = false;
@@ -175,8 +193,13 @@
     constructor () {
       this.element = document.createElement("div");
       this.element.id = "reserva";
-      this.element.style.width = `${gameDimensions[0]}px`;
-      this.element.style.height = `${gameDimensions[1]}px`;
+      if(window.innerWidth > 1250){
+        this.element.style.width = gameDimensionX+"px";
+        this.element.style.height = gameDimensionY+"px";
+      }else{
+        this.element.style.width = "100%";
+        this.element.style.height = `100%`;
+      }
       document.body.appendChild(this.element);
     }
   }
@@ -195,7 +218,7 @@
       this.element.setAttribute("data-state","burn")
       this.element.setAttribute("data-type","focus")
       this.element.onclick = function (){
-        if(!gameOver){
+        if(!gameOver && !paused){
           update_foco();
           if(this.getAttribute("data-state") == "burn"){
             this.style.display = "none";
@@ -224,7 +247,7 @@
       this.element.setAttribute("data-state","burn")
       this.element.setAttribute("data-type","skull")
       this.element.onclick = function (){
-        if(!gameOver){
+        if(!gameOver && !paused){
           update_foco();
           if(this.getAttribute("data-state") == "burn"){
             this.style.display = "none";

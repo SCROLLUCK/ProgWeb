@@ -25,6 +25,7 @@
     constructor(){
       document.body.innerHTML = "";
       reserva = new Reserva();
+      status = new Status();
       focos = [];
       started = true;
       gameOver = false;
@@ -32,8 +33,7 @@
       id = 0;
       FREQ = 1000;
       factor = 20
-      this.start = function (){
-        status = new Status();
+      this.start = function (){ 
         pause = new Pause();
         score = new Score();
         lifes = new Lifes(5);
@@ -95,7 +95,7 @@
     constructor () {
       this.element = document.createElement("div");
       this.element.className = "status";  
-      document.body.appendChild(this.element);
+      reserva.element.appendChild(this.element);
     }
   }
   
@@ -298,7 +298,7 @@
         let foco = new FocoIncendio();
         focos.push(foco);
       }
-      if (Math.random() * 100 < probCaveira) {
+      if ((Math.random() * 100) < probCaveira) {
         let caveira = new Caveira();
         focos.push(caveira);
       }

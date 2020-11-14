@@ -8,8 +8,9 @@
 #reserva {
   background-image: url('assets/reserva.png');
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
   overflow: hidden;
 }
@@ -34,7 +35,7 @@
   position: absolute;
   z-index: 4;
   height: 80px;
-  width: 1243px;
+  width: 100%;
   background: linear-gradient(180deg, #314631a6 49%, transparent 100%);
 }
 .lifes {

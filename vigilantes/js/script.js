@@ -91,7 +91,7 @@
       document.body.appendChild(this.element);
     }
   }
-
+  
   window.addEventListener("keydown", function (e) {
     if (e.key === 'p') {
        game.pause();
@@ -101,6 +101,9 @@
       game.start();
     }
   })
+  window.addEventListener("resize", function(e){
+      window.resizeTo(1243, 963);
+  });
 
   function validate_position () {
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <script>
+        (function () {
+            var size = [1243,961];
+            var game = window.open("","_blank", "width="+size[0]+",height="+size[1]);
+            game.document.write("<body></body>");
+            
+            var meta = document.createElement("meta")
+            meta.setAttribute('charset', 'UTF-8');
+            game.document.head.appendChild(meta);
+
+            var link = document.createElement("link")
+            link.setAttribute('rel', 'stylesheet');
+            link.setAttribute('href', 'css/styles.css');
+            game.document.head.appendChild(link);
+
+            game.document.write("<script src='js/script.js'><\/script>");
+            window.close();
+        })();
+    </script>
+</body>
+</html>

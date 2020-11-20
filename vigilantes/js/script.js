@@ -108,20 +108,6 @@
       game.start();
     }
   })
-  window.addEventListener("resize", function(e){
-      window.resizeTo(1243, 980);
-      if(window.innerWidth > 1250){
-        gameDimensionX = 1243;
-        gameDimensionY = 960;
-        reserva.element.style.width = "1243px";
-        reserva.element.style.height = "960px";
-      }else{
-        gameDimensionX = window.innerWidth;
-        gameDimensionY = window.innerHeight;
-        reserva.element.style.width = "100%";
-        reserva.element.style.height = "100%";
-      }
-  });
 
   function validate_position () {
 

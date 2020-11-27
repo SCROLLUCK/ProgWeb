@@ -15,7 +15,9 @@ function ui (req, res){
 }
 
 function game(req, res){
-    res.render('main/game');
+    res.render('main/game',{
+        titulo: 'Vigilantes da Floresta'
+    });
 }
 
 module.exports = { about, index, ui , game }

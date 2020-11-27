@@ -6,3 +6,87 @@
 .fle {
     display: flex;
 }
+
+#reserva {
+    background-image: url('../img/reserva.png');
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.foco-incendio {
+    background-image: url('../img/foco.gif');
+    background-size: 100%;
+    background-position-y: 90%;
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: 2;
+  }
+  .caveira {
+    background-image: url('../img/caveira.gif');
+    background-size: 100%;
+    background-position-y: 90%;
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: 2;
+  }
+  .status {
+    position: absolute;
+    z-index: 4;
+    height: 80px;
+    width: 100%;
+    background: linear-gradient(180deg, #314631a6 49%, transparent 100%);
+  }
+
+  .lifes {
+    display: flex;
+    padding: 12px;
+    position: absolute;
+  }
+  .life {
+    height: 55px;
+    width: 100px;
+    background-image: url('../img/arvore.png');
+    background-size: 100%;
+  }
+
+  .gameOver {
+    position: absolute;
+    font-family: monospace;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 0, 0, 0.652);
+  }
+  
+  .results h3 { font-size: 50px; color: white; padding-left: 10px;font-family: monospace; text-shadow: 0 0 5px black; }
+  .results h1 { font-size: 98px; color: white; font-family: monospace; text-shadow: 0 0 5px black; }
+  .results h4 { font-size: 20px; color: white; padding-left: 10px;font-family: monospace; text-shadow: 0 0 5px black; }
+  .results {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 12px;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+    background: rgba(58, 75, 58, 0.597);
+  }
+  .score {
+    position: absolute;
+    right: 0%;
+    font-size: 42px;
+    font-family: monospace;
+    padding: 12px;
+    font-weight: 700;
+    color: #4CAF50;
+    text-shadow: 0 0 5px black;
+  }
+  
+  .h1Verde { color: #4CAF50 !important; }
+  
+  #paused {
+    position: absolute;
+    font-family: monospace;
+    display: none;
+    width: 100%;
+    height: 100%;
+  }

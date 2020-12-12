@@ -2,7 +2,7 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const morgan = require('morgan');
 const router = require('./config/router');
-const sass = require('node-sass-middleware')
+const sass = require('node-sass-middleware');
 
 const app = express();
 app.engine('handlebars', handlebars({
@@ -30,6 +30,7 @@ app.use('/js', ([
 ]));
 app.use(morgan('combined'));
 
+app.use(express.urlencoded( { extended: false } ));
 app.use(router);
 app.use(function(req, res){
     res.statusCode = 404;

@@ -95,7 +95,7 @@
   class Status {
     constructor () {
       this.element = document.createElement("div");
-      this.element.className = "status";  
+      this.element.className = "status";
       reserva.element.appendChild(this.element);
     }
   }
